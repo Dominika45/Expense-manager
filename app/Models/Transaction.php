@@ -16,4 +16,9 @@ class Transaction extends Model
 	{
 		return $this->belongsTo(Category::class);
 	}
+
+	public function scopeCurrentMonth($query)
+	{
+		return $query->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year);
+	}
 }
