@@ -15,8 +15,8 @@ class BudgetController extends Controller
      */
     public function index():View
     {
-        $usersBudgets = Budget::where('user_id', auth()->user()->id)->get();
-        return view('budget.index', ['usersBudgets'=> $usersBudgets]);
+        $userBudgets = Budget::where('user_id', auth()->user()->id)->get();
+        return view('budget.index', ['userBudgets'=> $userBudgets]);
     }
 
     /**
@@ -50,24 +50,35 @@ class BudgetController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Budget $budget)
     {
-        //
+        abort_if($budget->user_id !== auth()->id(), 403);
+
+        $categories = Category::where('user_id', auth()->user()->id)->get();
+
+        return view('budget.edit', ['budget' => $budget, 'categories' => $categories]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreBudgetRequest $request, Budget $budget)
     {
-        //
+       abort_if($budget->user_id !== auth()->id(), 403);
+
+        $data = $request->validated();
+        $budget->update($data);
+        return redirect()->route('budget.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Budget $budget)
     {
-        //
+        abort_if($budget->user_id !== auth()->id(), 403);
+
+        $budget->delete();
+        return redirect()->route('budget.index');
     }
 }
