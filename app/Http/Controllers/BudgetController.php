@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBudgetRequest;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Budget;
@@ -22,15 +24,19 @@ class BudgetController extends Controller
      */
     public function create()
     {
-        //
+        $getCategories = Category::where('user_id', auth()->user()->id)->get();
+        return view('budget.create', ['categories' => $getCategories]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBudgetRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['user_id'] = auth()->id();
+        Budget::create($data);
+        return redirect()->route('budget.index');
     }
 
     /**

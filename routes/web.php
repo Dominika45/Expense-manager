@@ -33,6 +33,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
     Route::get('/budget', [BudgetController::class, 'index'])->name('budget.index');
+    Route::get('/budget/create', [BudgetController::class, 'create'])->name('budget.create');
+    Route::post('/budget', [BudgetController::class, 'store'])->name('budget.store');
+
 });
 
 require __DIR__.'/auth.php';
