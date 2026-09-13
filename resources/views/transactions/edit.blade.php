@@ -4,41 +4,45 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="bg-white oveerflow-hidden shadow-sm sm:rounded-lg p-6">
-            <form method="POST" action="{{route('transactions.update', $transaction)}}">
-                @csrf
-                @method('PUT')
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-white oveerflow-hidden shadow-sm sm:rounded-lg p-6">
+                    <form method="POST" action="{{route('transactions.update', $transaction)}}">
+                        @csrf
+                        @method('PUT')
 
-                <div class="mb-4">
-                    <label>Kategoria</label>
-                    <select name="category_id" class="w-full border-gray-300 rounded">
-                        @foreach ($categories as $category)
-                        <option value="{{$category->id}}" @selected($category->id === $transaction->category_id)>{{$category->name}}</option>
-                        @endforeach
-                    </select>
+                        <div class="mb-4">
+                            <label>Kategoria</label>
+                            <select name="category_id" class="w-full border-gray-300 rounded">
+                                @foreach ($categories as $category)
+                                <option value="{{$category->id}}" @selected($category->id === $transaction->category_id)>{{$category->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label>Kwota</label>
+                            <input type="number" step="0.01" name="amount" value="{{$transaction->amount}}" class="w-full border-gray-300 rounded">
+                        </div>
+
+                        <div class="mb-4">
+                            <label>Opis</label>
+                            <input type="text" name="description" value="{{$transaction->description}}" class="w-full border-gray-300 rounded">
+                        </div>
+
+                        <div class="mb-4">
+                            <label>Data</label>
+                            <input type="date" name="date"  value="{{$transaction->date}}" class="w-full border-gray-300 rounded">
+                        </div>
+
+                        @error('category_id')<p class="text-red-500">{{$message}}</p>@enderror
+                        @error('amount')<p class="text-red-500">{{$message}}</p>@enderror
+                        @error('date')<p class="text-red-500">{{$message}}</p>@enderror
+
+                        <button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded">Zapisz</button>
+                    </form>
                 </div>
-
-                <div class="mb-4">
-                    <label>Kwota</label>
-                    <input type="number" step="0.01" name="amount" value="{{$transaction->amount}}" class="w-full border-gray-300 rounded">
-                </div>
-
-                <div class="mb-4">
-                    <label>Opis</label>
-                    <input type="text" name="description" value="{{$transaction->description}}" class="w-full border-gray-300 rounded">
-                </div>
-
-                <div class="mb-4">
-                    <label>Data</label>
-                    <input type="date" name="date"  value="{{$transaction->date}}" class="w-full border-gray-300 rounded">
-                </div>
-
-                @error('category_id')<p class="text-red-500">{{$message}}</p>@enderror
-                @error('amount')<p class="text-red-500">{{$message}}</p>@enderror
-                @error('date')<p class="text-red-500">{{$message}}</p>@enderror
-
-                <button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded">Zapisz</button>
-            </form>
+            </div>
         </div>
     </div>
 </x-app-layout>
