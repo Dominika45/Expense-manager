@@ -57,11 +57,18 @@
                     </table>
 
                     <h3 class="text-xl font-semibold text-gray-800 mb-4">Wykres wydatków według kategorii</h3>
-                    <div class="w-full md:w-1/2">
-                        <canvas
-                            id="expensesChart"
-                            data-transactions='@json($transactionsByCategory)'
-                        ></canvas>
+                    <div class="flex">
+                        <div class="w-full md:w-1/2">
+                            <canvas
+                                id="expensesChart"
+                                data-transactions='@json($transactionsByCategory)'
+                            ></canvas>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <canvas id="transactionsVsBudgetsChart"
+            data-data="{{ json_encode($transactionsVsBudgets) }}">
+                            </canvas>
+                        </div>
                     </div>
                 </div>
             </div>

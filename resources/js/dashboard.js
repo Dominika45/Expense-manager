@@ -18,3 +18,42 @@ if (chartElement) {
         }
     });
 }
+
+const budgetChartElement = document.getElementById('transactionsVsBudgetsChart');
+
+if (budgetChartElement) {
+    const data = JSON.parse(budgetChartElement.dataset.data);
+
+    const labels = data.map(item => item.category);
+    const transactions = data.map(item => item.transactions);
+    const budgets = data.map(item => item.budget);
+
+    new Chart(budgetChartElement, {
+        type: 'bar',
+
+        data: {
+            labels: labels,
+
+            datasets: [
+                {
+                    label: 'Wydatki',
+                    data: transactions
+                },
+                {
+                    label: 'Budżet',
+                    data: budgets
+                }
+            ]
+        },
+
+        options: {
+            responsive: true,
+
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
